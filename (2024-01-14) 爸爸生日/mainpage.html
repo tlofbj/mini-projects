@@ -1,4 +1,4 @@
-<!-- Last Edited: 2024 Jan 13 8:50 PM by Tata Li -->
+<!-- Last Edited: 2024 Jan 13 9:25 PM by Tata Li -->
 
 <!DOCTYPE html>
 <html>
@@ -14,24 +14,40 @@
 
       button {
         position: fixed;
+        text-align: center;
         bottom: 10%;
         left: 50%;
-        width: 90%;
-        color: black;
+        width: 80%;
+        height: 100px;
+        color: white;
+        padding: 15px;
         transform: translate(-50%, 50%);
-        background-color: #ffc400;
-        border-width: 10px;
+        background-color: #730700;
+        border-width: 5px;
         border-color: white;
-        padding: 15px 30px;
-        font-size: 30px;
+        font-size: 25px;
         cursor: pointer;
         font-family: kaiti-sc;
+        border-radius: 20px;
       }
+
+      button:hover {
+        width: 90%;
+        font-size: 30px;
+      }
+
+      button:active {
+        background-color: #ab0c00;
+        font-size: 32px;
+      }
+
     </style>
   </head>
 <body>
-  <button id="button">爸爸，生日快乐！</button>
+  <button id="button"><div>爸爸，生日快乐</div><div style="color: hsla(0, 0%, 100%, 0.3); font-size: 60%;">塔塔于2024年1月14日</div>
+  </button>
   <canvas id="canvas"></canvas>
+  
 <script>
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
@@ -48,12 +64,17 @@
 
   const bgm = new Audio("audio/bgm.mp3")
   setInterval(function(){Update()},10);
+  let bghue = 245
   function Update(){
-    ctx.fillStyle = "hsla(245, 100%, 20%, 0.05)"
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Fill background
+    ctx.fillStyle = `hsla(${Math.floor(bghue)}, 100%, 10%, 0.05)`
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    bghue += 0.05;
+
+    // Play background music
     if (userInteractionBegin){
-      bgm.play(); // Play background music
+      bgm.play(); 
     }
   }
 
