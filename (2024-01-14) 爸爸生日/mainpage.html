@@ -1,9 +1,9 @@
-<!-- Last Edited: 2024 Jan 13 9:25 PM by Tata Li -->
+<!-- Last Edited: 2024 Jan 13 10:25 PM by Tata Li -->
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Happy Birthday Fireworks</title>
+  <title>爸爸，生日快乐！</title>
     <style>
 
       body {
@@ -97,7 +97,7 @@
     if (particle.vy > particle.deathHeight) {
       if (particle.type == "first-time"){
         createFlowers(particle.x, particle.y, particle.hue);
-        new Audio("audio/blast"+(random(4, 0)+1)+".ogg").play()
+        new Audio("audio/blast"+(random(4, 0)+1)+".mp3").play()
       } 
     } else {
       requestAnimationFrame(() => animateParticle(particle));
@@ -120,7 +120,7 @@
         deathHeight: 3,
         size: 5
       };
-      new Audio("audio/rockets.ogg").play()
+      new Audio("audio/rockets.mp3").play()
       animateParticle(particle);
     }
   }
