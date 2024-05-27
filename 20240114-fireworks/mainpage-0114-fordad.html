@@ -1,0 +1,148 @@
+<!-- Last Edited: 2024 Jan 13 10:25 PM by Tata Li -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>爸爸，生日快乐！</title>
+    <style>
+
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: black;
+      }
+
+      button {
+        position: fixed;
+        text-align: center;
+        bottom: 10%;
+        left: 50%;
+        width: 80%;
+        height: 100px;
+        color: white;
+        padding: 15px;
+        transform: translate(-50%, 50%);
+        background-color: #730700;
+        border-width: 5px;
+        border-color: white;
+        font-size: 25px;
+        cursor: pointer;
+        font-family: kaiti-sc;
+        border-radius: 20px;
+      }
+
+      button:hover {
+        width: 90%;
+        font-size: 30px;
+      }
+
+      button:active {
+        background-color: #ab0c00;
+        font-size: 32px;
+      }
+
+    </style>
+  </head>
+<body>
+  <button id="button"><div>爸爸，生日快乐</div><div style="color: hsla(0, 0%, 100%, 0.3); font-size: 60%;">塔塔于2024年1月14日</div>
+  </button>
+  <canvas id="canvas"></canvas>
+  
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const button = document.getElementById("button");
+  button.addEventListener("click", function(){createRockets(); userInteractionBegin = true;});
+  let userInteractionBegin = false;
+
+  function random(x, d){
+    return Math.floor(Math.random() * x * 10**d)/(10**d)
+  }
+
+  const bgm = new Audio("audio/bgm.mp3")
+  setInterval(function(){Update()},10);
+  let bghue = 245
+  function Update(){
+
+    // Fill background
+    ctx.fillStyle = `hsla(${Math.floor(bghue)}, 100%, 10%, 0.05)`
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    bghue += 0.05;
+
+    // Play background music
+    if (userInteractionBegin){
+      bgm.play(); 
+    }
+  }
+
+  function animateParticle(particle) {
+
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${particle.hue}, 100%, 50%, ${particle.opacity})`;
+    ctx.fill();
+    ctx.closePath();
+
+    particle.x += particle.vx;
+    particle.y += particle.vy;
+    particle.vy += particle.gravity;
+
+    if (particle.type == "flower") {
+      particle.opacity -= 0.01;
+    }
+
+    if (particle.vy > particle.deathHeight) {
+      if (particle.type == "first-time"){
+        createFlowers(particle.x, particle.y, particle.hue);
+        new Audio("audio/blast"+(random(4, 0)+1)+".mp3").play()
+      } 
+    } else {
+      requestAnimationFrame(() => animateParticle(particle));
+    }
+  }
+
+  function createRockets() {
+
+    const numParticles = random(10, 0);
+    for (let i = 0; i < numParticles; i++) {
+      const particle = {
+        x: button.offsetLeft,
+        y: button.offsetTop + 50,
+        vx: random(4, 3) - 2,
+        vy: -random(8, 3) - 4,
+        opacity: 0.8,
+        hue: random(360, 0),
+        type: "first-time",
+        gravity: 0.1,
+        deathHeight: 3,
+        size: 5
+      };
+      new Audio("audio/rockets.mp3").play()
+      animateParticle(particle);
+    }
+  }
+
+  function createFlowers(x, y, hue) {
+    const numParticles = random(50, 0);
+    for (let i = 0; i < numParticles; i++) {
+      const particle = {
+        x: x,
+        y: y,
+        vx: random(6, 3) - 3,
+        vy: -random(6, 3) + 2,
+        hue: hue,
+        opacity: random(1.5, 1),
+        type: "flower",
+        gravity: 0.1,
+        deathHeight: 10,
+        size: random(6, 1)
+      };
+      animateParticle(particle);
+    }
+  }
+</script>
+</body>
+</html>
